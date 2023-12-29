@@ -3,6 +3,7 @@ import { getUserByClerckId } from "@/utils/auth"
 import NewEntryCard from "@/components/NewEntryCard"
 import EntryCard from "@/components/EntryCard"
 import Link from "next/link"
+import { analyze } from "@/utils/ai"
 
 const getEntries = async () => {
     const user = await getUserByClerckId()
@@ -15,6 +16,8 @@ const getEntries = async () => {
             createdAt: 'desc'
         }
     })
+
+    await analyze('who is this painting for: a man holding a glass of milk in the middle of a party at 5th century')
 
     return entries
 }

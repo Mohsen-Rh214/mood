@@ -18,14 +18,14 @@ const Editor = ({ entry }) => {
     return (
         <div className="w-full h-full">
             {isLoading &&
-                <div>...loading</div>
+                <div>Auto saving...</div>
             }
             <textarea
+                style={{ resize: 'none' }}
                 className="w-full h-full p-8 text-xl outline-none"
                 value={value}
                 onChange={(e) => setValue(e.target.value)}
             />
-            {entry.content}
         </div>
     )
 }
