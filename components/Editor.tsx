@@ -2,7 +2,6 @@
 
 import { updateEntry } from "@/utils/api"
 import { useState } from "react"
-import { useAutosave } from "react-autosave"
 
 const Editor = ({ entry }) => {
     const [value, setValue] = useState(entry.content)
@@ -11,28 +10,22 @@ const Editor = ({ entry }) => {
 
     const { mood, summary, moodColor, textColor, subject, negative } = analysis
     const analysisData = [
-        { name: 'Summary', value: summary },
-        { name: 'Subject', value: subject },
-        { name: 'Mood', value: mood },
-        { name: 'Negative', value: negative ? 'True' : 'False' },
+        { name: 'Summary:', value: summary },
+        { name: 'Subject:', value: subject },
+        { name: 'Mood:', value: mood },
+        { name: 'Negative:', value: negative ? 'True' : 'False' },
     ]
 
-    useAutosave({
-        data: value,
-        onSave: async (_value) => {
-            setIsLoading(true)
-            const data = await updateEntry(entry.id, _value)
-            setAnalysis(data.analysis)
-            setIsLoading(false)
-        }
-    })
+    const handleSave = async () => {
+        setIsLoading(true)
+        const data = await updateEntry(entry.id, value)
+        setAnalysis(data.analysis)
+        setIsLoading(false)
+    }
 
     return (
         <div className="w-full h-full grid grid-cols-3">
             <div className="col-span-2 p-8 bg-zinc-300/20">
-                {isLoading &&
-                    <div>Auto saving...</div>
-                }
                 <textarea
                     style={{ resize: 'none' }}
                     className="w-full p-8 h-full text-xl outline-none shadow"
@@ -49,15 +42,25 @@ const Editor = ({ entry }) => {
                     <ul>
                         {analysisData.map(item => (
                             <li
-                                className="flex items-center justify-between
+                                className="flex items-center justify-between gap-6
                                 px-6 py-4 border-t border-b border-black/10"
                                 key={item.name}
                             >
                                 <span className="text-lg font-semibold">{item.name}</span>
-                                <span className="text-center">{item.value}</span>
+                                <span className="text-justify">{item.value}</span>
                             </li>
                         ))}
                     </ul>
+
+                    <div className="w-full mt-8 flex flex-col items-center gap-3">
+                        <button
+                            className="bg-blue-500/90 hover:bg-blue-500 w-[90%] h-12 rounded-lg text-white"
+                            onClick={handleSave}
+                        >
+                            {isLoading ? 'Saving...' : 'Save'}
+                        </button>
+                        <p className="text-black/80">Wait for the Analysis to change!</p>
+                    </div>
                 </div>
             </div>
         </div>
