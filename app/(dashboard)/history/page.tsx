@@ -23,8 +23,8 @@ const History = async () => {
   console.log('log: a: ', analyses)
 
   return (
-    <div className="w-full h-full flex flex-col">
-      <div>
+    <div className="w-full h-full flex flex-col items-center justify-center gap-10 bg-zinc-200/20">
+      <div className="px-20 py-10 shadow-md bg-white">
         {`Avg. Sentiment: ${avg}`}
       </div>
       <div className="w-[60%] h-[60%] self-center justify-self-center">

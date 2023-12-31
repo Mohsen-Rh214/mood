@@ -60,7 +60,7 @@ const Questions = () => {
                     </div>
                 }
 
-                {response &&
+                {response && !loading &&
                     <div><b>Here is your answer:</b><br />{response}</div>
                 }
             </div>}

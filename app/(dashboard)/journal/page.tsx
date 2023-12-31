@@ -8,7 +8,6 @@ import Questions from "@/components/Questions"
 
 const getEntries = async () => {
     const user = await getUserByClerckId()
-
     const entries = await prisma.journalEntry.findMany({
         where: {
             userId: user.id,
@@ -16,6 +15,9 @@ const getEntries = async () => {
         orderBy: {
             createdAt: 'desc'
         },
+        include: {
+            analysis: true,
+        }
     })
 
     return entries
